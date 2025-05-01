@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="BudgetTrackerApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BudgetTrackerApp"
+    Shell.FlyoutBehavior="Flyout"
+    Title="BudgetTrackerApp">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    
+    <FlyoutItem Title="Budget" Route="MainPage">
+        <Tab Title="Expenses" Icon="expenses_icon.png">
+            <ShellContent
+            Title="Expenses"
+            ContentTemplate="{DataTemplate local:ExpensesPage}"
+            Route="ExpensesPage" />
+        </Tab>
+        <Tab Title="Categories" Icon="categories_icon.png">
+            <ShellContent
+            Title="Categories"
+            ContentTemplate="{DataTemplate local:CategoryManagementPage}"
+            Route="CategoriesPage" />
+        </Tab>
+        <Tab Title="Goals" Icon="goals_icon.png">
+            <ShellContent
+            Title="Goals"
+            ContentTemplate="{DataTemplate local:GoalsPage}"
+            Route="GoalsPage" />
+        </Tab>
+        <Tab Title="Reports" Icon="reports_icon.png">
+            <ShellContent
+            Title="Reports"
+            ContentTemplate="{DataTemplate local:ReportsPage}"
+            Route="ReportsPage" />
+        </Tab>
+    </FlyoutItem>
+
+    <ShellContent Route="AddExpensePage" ContentTemplate="{DataTemplate local:AddExpensePage}" />
+
+
+
+</Shell>

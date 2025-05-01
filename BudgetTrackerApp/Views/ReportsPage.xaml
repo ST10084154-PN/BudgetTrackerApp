@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTrackerApp.ViewModels"
+             x:Class="BudgetTrackerApp.Views.ReportsPage"
+             Title="Spending Reports">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+
+        <Label Grid.Row="0" Text="Spending Summary by Category" FontSize="Large" HorizontalOptions="Center" Margin="0,10,0,0"/>
+
+        <HorizontalStackLayout Grid.Row="1" Spacing="10" Padding="10" HorizontalOptions="Center" Margin="0,5,0,10">
+            <Label Text="From:" VerticalOptions="Center"/>
+            <DatePicker Date="{Binding StartDate}" />
+            <Label Text="To:" VerticalOptions="Center"/>
+            <DatePicker Date="{Binding EndDate}" />
+        </HorizontalStackLayout>
+
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding SpendingByCategory}" Margin="10,0">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="*, Auto" Padding="10, 5">
+                    <Label Grid.Column="0" Text="Category" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Text="Total Spent" FontAttributes="Bold"/>
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CategorySpending">
+                    <Grid ColumnDefinitions="*, Auto" Padding="10, 5">
+                        <Label Grid.Column="0" Text="{Binding CategoryName}" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="{Binding TotalAmount, StringFormat='{0:C}'}" HorizontalOptions="End" VerticalOptions="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <Grid ColumnDefinitions="*, Auto" Padding="10, 10" BackgroundColor="LightGray">
+                    <Label Grid.Column="0" Text="TOTAL SPENDING" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="{Binding TotalSpending, StringFormat='{0:C}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center"/>
+                </Grid>
+            </CollectionView.Footer>
+            <CollectionView.EmptyView>
+                <Label Text="No spending data found for the selected period." HorizontalOptions="Center" VerticalOptions="Center" Margin="20"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Label Grid.Row="3" Text="{Binding StatusMessage}" TextColor="Gray" HorizontalOptions="Center" Margin="10"/>
+
+    </Grid>
+</ContentPage>

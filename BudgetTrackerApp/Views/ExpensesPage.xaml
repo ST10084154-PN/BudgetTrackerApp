@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTrackerApp.ViewModels"
+             xmlns:model="clr-namespace:BudgetTrackerApp.Models"
+             x:Class="BudgetTrackerApp.Views.ExpensesPage"
+             Title="Expenses">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" Padding="10" HorizontalOptions="Center">
+            <Label Text="From:" VerticalOptions="Center"/>
+            <DatePicker Date="{Binding StartDate}" />
+            <Label Text="To:" VerticalOptions="Center"/>
+            <DatePicker Date="{Binding EndDate}" />
+        </HorizontalStackLayout>
+
+        <Button Grid.Row="1" Text="Refresh List" Command="{Binding LoadExpensesCommand}" Margin="10"/>
+
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Expenses}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Expense">
+                    <Frame Padding="10" Margin="5" BorderColor="LightGray" CornerRadius="5">
+                        <Grid ColumnDefinitions="*, Auto, Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="{Binding Description}" FontAttributes="Bold" />
+                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" />
+                                <Label Text="{Binding Date, StringFormat='{0:yyyy-MM-dd}'}" FontSize="Small" TextColor="Gray"/>
+                            </VerticalStackLayout>
+
+                            <Image Grid.Column="1"
+                                    Source="{Binding PhotoPath}"
+                                    HeightRequest="50"
+                                    WidthRequest="50"
+                                    Aspect="AspectFill"
+                                    IsVisible="{Binding PhotoPath, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                                    Margin="5,0"/>
+                            <Button Grid.Column="2"
+                                     Text="Details"
+                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExpenseListViewModel}}, Path=ViewExpenseDetailsCommand}"
+                                     CommandParameter="{Binding .}"
+                                     FontSize="Small"
+                                     VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="No expenses found for the selected period." HorizontalOptions="Center" VerticalOptions="Center" Margin="20"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Button Grid.Row="3" Text="Add New Expense" Command="{Binding AddExpenseCommand}" Margin="10" />
+
+    </Grid>
+</ContentPage>

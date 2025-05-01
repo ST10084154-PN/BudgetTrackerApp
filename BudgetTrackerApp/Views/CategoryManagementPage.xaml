@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetTrackerApp.ViewModels"
+             xmlns:model="clr-namespace:BudgetTrackerApp.Models"
+             x:Class="BudgetTrackerApp.Views.CategoryManagementPage"
+             Title="Manage Categories">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <VerticalStackLayout Grid.Row="0" Padding="15" Spacing="10">
+            <Label Text="Add New Category" FontAttributes="Bold" />
+            <Entry Placeholder="Category Name" Text="{Binding NewCategoryName}" />
+            <Button Text="Add Category" Command="{Binding AddCategoryCommand}" />
+            <Label Text="{Binding StatusMessage}" TextColor="Gray" FontSize="Small" Margin="0,5,0,0"/>
+        </VerticalStackLayout>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Categories}" Margin="10,0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Category">
+                    <Frame Padding="10" Margin="5" BorderColor="LightGray" CornerRadius="5">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center"/>
+                            <Button Grid.Column="1"
+                                    Text="Delete"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryManagementViewModel}}, Path=DeleteCategoryCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="Red"
+                                    TextColor="White"
+                                    FontSize="Small"
+                                    Padding="8,4"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+             <CollectionView.EmptyView>
+                <Label Text="No categories found. Add some above!" HorizontalOptions="Center" VerticalOptions="Center" Margin="20"/>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Button Grid.Row="2" Text="Refresh List" Command="{Binding LoadCategoriesCommand}" Margin="15"/>
+
+    </Grid>
+</ContentPage>
